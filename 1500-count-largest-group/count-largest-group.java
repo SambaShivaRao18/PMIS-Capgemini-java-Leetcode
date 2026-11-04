@@ -1,35 +1,48 @@
 class Solution {
-    public int getSumOfDigits(int num)
+    public int getSumOfDigits(int i)
     {
         int sum=0;
-        while(num>0)
+        while(i>0)
         {
-            sum+=(num%10);
-            num=num/10;
+            sum+=(i%10);
+
+            i=i/10;
         }
+
         return sum;
     }
-    public int countLargestGroup(int n) {
+    public int countLargestGroup(int n) 
+    {
+        //Create HashMap
         HashMap<Integer,Integer> map=new HashMap<>();
-        
+
+        //Interate from 1 to n
         for(int i=1;i<=n;i++)
         {
             int sum=getSumOfDigits(i);
-            map.put(sum,map.getOrDefault(sum,0)+1);
+
+            if(map.isEmpty() || !map.containsKey(sum))
+            {
+                map.put(sum,1);
+            }
+            else
+            {
+                int freq=map.get(sum);
+                map.put(sum,freq+1);
+            }
         }
 
-        // System.out.println(map);
-
-        int max=0;
-        for(Map.Entry<Integer,Integer> e:map.entrySet())
+        int largest=0;
+        //Find largest value in the hashmap
+        for(Map.Entry<Integer,Integer> e : map.entrySet())
         {
-            max=Math.max(max,e.getValue());
+            largest=Math.max(largest,e.getValue());
         }
 
         int count=0;
-        for(Map.Entry<Integer,Integer> e:map.entrySet())
+        for(Map.Entry<Integer,Integer> e : map.entrySet())
         {
-            if(e.getValue()==max)
+            if(e.getValue()==largest)
              count++;
         }
 
